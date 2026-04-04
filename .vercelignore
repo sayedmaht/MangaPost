@@ -1,0 +1,8 @@
+src/
+backend/
+node_modules/
+package.json
+package-lock.json
+vite.config.js
+venv/
+.env

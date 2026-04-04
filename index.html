@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MangaPost Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#logo-gradient)" />
+          <path d="M10 8h4l4 8-4 8h-4l4-8-4-8z" fill="#0a0a0f" />
+          <path d="M18 8h4l-4 8 4 8h-4l-4-8 4-8z" fill="#0a0a0f" opacity="0.6" />
+          <defs>
+            <linearGradient id="logo-gradient" x1="2" y1="2" x2="30" y2="30">
+              <stop stopColor="#e94560" />
+              <stop offset="1" stopColor="#7c3aed" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-view="write" id="nav-write">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" /></svg>
+          <span class="tooltip">Write</span>
+        </button>
+        <button class="nav-btn" data-view="script" id="nav-script">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 13H8" /><path d="M16 17H8" /><path d="M16 13h-2" /></svg>
+          <span class="tooltip">Script</span>
+        </button>
+        <button class="nav-btn" data-view="layout" id="nav-layout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" /></svg>
+          <span class="tooltip">Layout</span>
+        </button>
+        <button class="nav-btn" data-view="export" id="nav-export">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+          <span class="tooltip">Export</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="nav-btn" style="cursor: default" id="agent-status-indicator">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" />
+            <circle cx="12" cy="4" r="2" fill="#7c3aed" class="status-dot idle" id="agent-status-dot" style="display:none;" />
+          </svg>
+          <span class="tooltip" id="agent-status-tooltip">AI Ready</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <div class="editor-panel">
+        
+        <!-- View: Write -->
+        <div id="view-write" class="view-section" style="display: flex; flex-direction: column; height: 100%;">
+          <div class="story-input-section" style="flex: 0 0 auto;">
+            <div class="panel-header" style="padding: 0; border-bottom: none; min-height: auto;">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" /></svg>
+                Story Outline
+              </h3>
+              <span style="font-size: 0.72rem; color: var(--text-muted)">Ctrl+Enter to generate</span>
+            </div>
+            
+            <textarea id="story-outline-input" class="story-textarea" placeholder="Describe your manga story here..."></textarea>
+            
+            <div class="input-controls">
+              <div class="input-group">
+                <label>Genre</label>
+                <select class="select" id="genre-select">
+                  <option value="shonen">Shōnen (Action/Adventure)</option>
+                  <option value="seinen">Seinen (Mature/Thriller)</option>
+                  <option value="shoujo">Shōjo (Romance/Drama)</option>
+                  <option value="horror">Horror / Dark Fantasy</option>
+                  <option value="isekai">Isekai (Fantasy World)</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Format</label>
+                <select class="select" id="format-select">
+                  <option value="manga">Manga (Print)</option>
+                  <option value="webtoon">Webtoon (Vertical)</option>
+                  <option value="comic">Western Comic</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Pages</label>
+                <input type="number" class="input" id="pages-input" value="2" min="1" max="60" style="width:80px">
+              </div>
+              <div class="input-group">
+                <label>Direction</label>
+                <select class="select" id="direction-select">
+                  <option value="rtl">RTL (Manga)</option>
+                  <option value="ltr">LTR (Western)</option>
+                  <option value="vertical">Vertical</option>
+                </select>
+              </div>
+              <div class="generate-btn-wrapper">
+                <button class="btn btn-primary btn-lg" id="generate-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /></svg>
+                  Generate Script
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Agent Stream -->
+          <div class="agent-stream-section" id="agent-stream-section">
+            <div class="empty-state" id="agent-empty-state">
+              <div class="empty-state-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+              <h3>AI Crew Standing By</h3>
+              <p>Enter your story outline above and hit Generate</p>
+            </div>
+            
+            <div id="agent-pipeline-container" style="display:none; flex-direction: column; gap: var(--space-md);">
+              <div class="panel-header" style="padding: 0; border-bottom: none; min-height: auto;">
+                <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/></svg> Agent Pipeline</h3>
+                <span class="badge badge-thinking" id="pipeline-status"><span class="status-dot thinking"></span> Processing</span>
+              </div>
+              <div id="agents-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View: Script -->
+        <div id="view-script" class="view-section" style="display: none; height: 100%;">
+          <div class="script-view">
+            <div id="script-empty" class="empty-state">
+              <h3>No Script Yet</h3>
+              <p>Generate a script from the Write tab</p>
+              <button class="btn btn-secondary" onclick="document.getElementById('nav-write').click()">← Go to Write</button>
+            </div>
+            <div id="script-content" style="display:none;">
+              <div class="panel-header" style="padding: 0 0 var(--space-md) 0; border-bottom: none;">
+                <h3>Manga Script</h3>
+                <button class="btn btn-ghost" id="copy-script-btn">Copy</button>
+              </div>
+              <div id="script-tabs" style="display:flex; gap:4px; margin-bottom:16px; overflow-x:auto;"></div>
+              <div id="script-page-content" class="script-page animate-fade-in"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View: Layout (Full Width) -->
+        <div id="view-layout" class="view-section" style="display: none; height: 100%;">
+           <div id="layout-full-canvas-container" class="canvas-container"></div>
+        </div>
+
+        <!-- View: Export -->
+        <div id="view-export" class="view-section" style="display: none; height: 100%;">
+          <div class="export-view">
+            <div class="panel-header" style="padding: 0 0 var(--space-md) 0; border-bottom: none;">
+              <h3>Export & Download</h3>
+            </div>
+            <div id="export-empty" class="empty-state">
+               <h3>Nothing to Export</h3>
+            </div>
+            <div id="export-options" style="display:none; display:flex; flex-direction:column; gap:16px;">
+               <div class="glass-card export-card" id="export-text-btn" style="cursor:pointer">
+                  <div class="export-icon script">TXT</div>
+                  <div class="export-info"><h4>Script (Text)</h4><p>Formatted manga script</p></div>
+                  <button class="btn btn-primary">Download</button>
+               </div>
+               <div class="glass-card export-card" id="export-json-btn" style="cursor:pointer">
+                  <div class="export-icon layout">JSON</div>
+                  <div class="export-info"><h4>Project (JSON)</h4><p>Complete project bundle</p></div>
+                  <button class="btn btn-secondary">Download</button>
+               </div>
+               <div class="glass-card export-card" id="export-svg-btn" style="cursor:pointer">
+                  <div class="export-icon bundle">SVG</div>
+                  <div class="export-info"><h4>Panel Layout (SVG)</h4><p>Vector panel wireframe</p></div>
+                  <button class="btn btn-secondary">Download</button>
+               </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Persistent Preview Panel -->
+      <div class="preview-panel" id="preview-panel">
+         <div id="layout-mini-canvas-container" class="canvas-container">
+            <div class="panel-header">
+              <h3>Panel Layout</h3>
+              <span class="badge badge-genre" id="reading-dir-badge">RTL ←</span>
+            </div>
+            <div class="canvas-wrapper" id="mini-canvas-wrapper" style="overflow:hidden;">
+               <div class="empty-state"><p style="font-size:0.8rem">Generate a script to see layouts</p></div>
+            </div>
+            <div class="canvas-controls" id="mini-canvas-controls" style="display:none;">
+               <div class="page-nav">
+                  <button class="btn-icon" id="prev-page-btn">←</button>
+                  <span id="page-indicator">1 / 1</span>
+                  <button class="btn-icon" id="next-page-btn">→</button>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <!-- Quick Edit Bar -->
+    <div class="quick-edit" id="quick-edit-bar" style="display:none;">
+      <form class="quick-edit-inner" id="quick-edit-form">
+        <input type="text" class="quick-edit-input" id="quick-edit-input" placeholder="Quick edit script..." />
+        <button type="submit" class="quick-edit-send" id="quick-edit-submit">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22,2 15,22 11,13 2,9" /></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
