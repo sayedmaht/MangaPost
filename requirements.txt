@@ -4,3 +4,4 @@ crewai
 langchain-groq
 python-dotenv==1.0.1
 pydantic==2.10.4
+pysqlite3-binary
