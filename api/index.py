@@ -1,4 +1,12 @@
 import asyncio
+
+# Fix for Vercel's outdated sqlite3 version (required by CrewAI/ChromaDB)
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
 import json
 import os
 import re
