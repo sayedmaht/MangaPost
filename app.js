@@ -183,6 +183,10 @@ function handleEvent(data) {
       if(data.script) state.script = data.script;
       if(data.pages) state.panelLayouts = data.pages;
    }
+   else if (data.event === 'error') {
+      alert("Backend Error: " + data.message);
+      console.error("Backend Error:", data.message);
+   }
 }
 
 // --- RENDERERS ---
