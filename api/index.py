@@ -9,6 +9,9 @@ except ImportError:
     pass
 import json
 import os
+os.environ["HOME"] = "/tmp"
+os.environ["XDG_DATA_HOME"] = "/tmp"
+os.environ["CHROMA_HOME"] = "/tmp"
 import re
 import random
 from typing import Optional
