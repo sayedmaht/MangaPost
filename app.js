@@ -88,6 +88,14 @@ DOM.generateBtn.addEventListener('click', async () => {
          })
       });
 
+      if (!response.ok) {
+         let errorText = await response.text();
+         alert(`Server Request Failed (${response.status}). Are you missing an API key or timing out on Vercel?\n\nDetails: ${errorText.substring(0, 100)}`);
+         console.error("Fetch Error:", response.status, errorText);
+         endGeneration();
+         return;
+      }
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
